@@ -1,0 +1,7 @@
+flask
+flask_sqlalchemy
+pandas
+numpy
+scikit-learn
+gunicorn
+werkzeug
