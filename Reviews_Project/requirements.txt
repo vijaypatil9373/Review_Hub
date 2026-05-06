@@ -1,7 +1,8 @@
 flask
 flask_sqlalchemy
+werkzeug
 pandas
 numpy
 scikit-learn
 gunicorn
-werkzeug
+psycopg2-binary
