@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+overflow:hidden;
+color:white;
+}
+
+/* FLOATING SYMBOLS */
+.symbol{
+position:absolute;
+font-size:20px;
+opacity:0.12;
+animation:float linear infinite;
+}
+.symbol:nth-child(1){left:10%;animation-duration:18s;top:100%;}
+.symbol:nth-child(2){left:30%;animation-duration:22s;top:110%;}
+.symbol:nth-child(3){left:50%;animation-duration:20s;top:105%;}
+.symbol:nth-child(4){left:70%;animation-duration:24s;top:115%;}
+.symbol:nth-child(5){left:90%;animation-duration:26s;top:120%;}
+
+@keyframes float{
+0%{transform:translateY(0) rotate(0deg);}
+100%{transform:translateY(-120vh) rotate(360deg);}
+}
+
+/* BOX */
+.box{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(14px);
+padding:35px;
+border-radius:18px;
+width:320px;
+text-align:center;
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+border:1px solid rgba(255,255,255,0.1);
+}
+
+h2{
+margin-bottom:20px;
+background:linear-gradient(90deg,#4ade80,#bbf7d0);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* INPUT */
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+border:none;
+outline:none;
+background:rgba(255,255,255,0.1);
+color:white;
+}
+
+input:focus{
+box-shadow:0 0 0 2px #22c55e;
+}
+
+/* PASSWORD TOGGLE */
+.password-box{
+position:relative;
+}
+.toggle{
+position:absolute;
+right:10px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:14px;
+color:#86efac;
+}
+
+/* STRENGTH BAR */
+.strength{
+height:6px;
+border-radius:5px;
+margin-top:5px;
+background:#334155;
+overflow:hidden;
+}
+.strength div{
+height:100%;
+width:0%;
+transition:0.3s;
+}
+
+/* VALIDATION TEXT */
+.msg{
+font-size:12px;
+text-align:left;
+margin-top:3px;
+}
+
+/* BUTTON */
+button{
+width:100%;
+padding:12px;
+margin-top:12px;
+background:linear-gradient(135deg,#22c55e,#4ade80);
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:500;
+transition:0.3s;
+}
+
+button:disabled{
+opacity:0.5;
+cursor:not-allowed;
+}
+
+button:hover:not(:disabled){
+transform:translateY(-2px);
+}
+
+/* LINK */
+a{color:#86efac;text-decoration:none;font-size:14px;}
+a:hover{text-decoration:underline;}
+</style>
+</head>
+
+<body>
+
+<!-- SYMBOLS -->
+<div class="symbol">⚙️</div>
+<div class="symbol">🤖</div>
+<div class="symbol">💻</div>
+<div class="symbol">📊</div>
+<div class="symbol">🧠</div>
+
+<div class="box">
+<h2>📝 Register</h2>
+
+<form method="POST" id="form">
+
+<input id="username" name="username" placeholder="Username" required>
+<div class="msg" id="userMsg"></div>
+
+<div class="password-box">
+<input id="password" type="password" name="password" placeholder="Password" required>
+<span class="toggle" onclick="togglePassword()">Show</span>
+</div>
+
+<div class="strength"><div id="bar"></div></div>
+<div class="msg" id="strengthText"></div>
+
+<input id="confirm" type="password" placeholder="Confirm Password" required>
+<div class="msg" id="confirmMsg"></div>
+
+<button id="submitBtn" disabled>Register</button>
+
+</form>
+
+<p style="margin-top:15px;">
+<a href="/login">Already have account</a>
+</p>
+
+</div>
+
+<script>
+
+// SHOW PASSWORD
+function togglePassword(){
+let pass = document.getElementById("password");
+pass.type = pass.type === "password" ? "text" : "password";
+}
+
+// PASSWORD STRENGTH
+let password = document.getElementById("password");
+let bar = document.getElementById("bar");
+let text = document.getElementById("strengthText");
+
+password.addEventListener("input", ()=>{
+let val = password.value;
+let strength = 0;
+
+if(val.length > 5) strength++;
+if(/[A-Z]/.test(val)) strength++;
+if(/[0-9]/.test(val)) strength++;
+if(/[^A-Za-z0-9]/.test(val)) strength++;
+
+let colors = ["red","orange","#facc15","#22c55e"];
+bar.style.width = (strength*25) + "%";
+bar.style.background = colors[strength-1] || "transparent";
+
+let labels = ["Weak","Okay","Good","Strong"];
+text.innerText = labels[strength-1] || "";
+});
+
+// CONFIRM PASSWORD
+let confirm = document.getElementById("confirm");
+let confirmMsg = document.getElementById("confirmMsg");
+
+confirm.addEventListener("input", ()=>{
+if(confirm.value !== password.value){
+confirmMsg.innerText = "Passwords do not match";
+confirmMsg.style.color = "red";
+}else{
+confirmMsg.innerText = "Passwords match";
+confirmMsg.style.color = "#22c55e";
+}
+checkForm();
+});
+
+// USERNAME CHECK
+let username = document.getElementById("username");
+let userMsg = document.getElementById("userMsg");
+
+username.addEventListener("input", ()=>{
+if(username.value.length < 3){
+userMsg.innerText = "At least 3 characters";
+userMsg.style.color = "red";
+}else{
+userMsg.innerText = "Looks good";
+userMsg.style.color = "#22c55e";
+}
+checkForm();
+});
+
+// ENABLE BUTTON
+function checkForm(){
+let valid =
+username.value.length >=3 &&
+password.value.length >=6 &&
+password.value === confirm.value;
+
+document.getElementById("submitBtn").disabled = !valid;
+}
+
+</script>
+
+</body>
+</html>

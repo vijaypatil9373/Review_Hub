@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+overflow:hidden;
+color:white;
+}
+
+/* 🔥 FLOATING SYMBOLS */
+.symbol{
+position:absolute;
+font-size:22px;
+opacity:0.12;
+animation:float linear infinite;
+}
+
+/* random positions */
+.symbol:nth-child(1){left:10%; animation-duration:18s; top:100%;}
+.symbol:nth-child(2){left:20%; animation-duration:22s; top:110%;}
+.symbol:nth-child(3){left:30%; animation-duration:20s; top:105%;}
+.symbol:nth-child(4){left:40%; animation-duration:25s; top:115%;}
+.symbol:nth-child(5){left:50%; animation-duration:19s; top:100%;}
+.symbol:nth-child(6){left:60%; animation-duration:23s; top:110%;}
+.symbol:nth-child(7){left:70%; animation-duration:21s; top:108%;}
+.symbol:nth-child(8){left:80%; animation-duration:24s; top:112%;}
+.symbol:nth-child(9){left:90%; animation-duration:26s; top:120%;}
+
+@keyframes float{
+0%{transform:translateY(0) rotate(0deg);}
+100%{transform:translateY(-120vh) rotate(360deg);}
+}
+
+/* 🌟 GLASS BOX */
+.box{
+position:relative;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(14px);
+padding:35px;
+border-radius:18px;
+width:320px;
+text-align:center;
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+border:1px solid rgba(255,255,255,0.1);
+animation:fadeUp 0.8s ease;
+}
+
+/* TITLE */
+h2{
+margin-bottom:20px;
+font-weight:600;
+letter-spacing:0.5px;
+
+/* gradient text */
+background:linear-gradient(90deg,#818cf8,#c7d2fe);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* INPUT */
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:none;
+outline:none;
+background:rgba(255,255,255,0.1);
+color:white;
+transition:0.25s;
+}
+
+input::placeholder{
+color:#cbd5f5;
+}
+
+input:focus{
+background:rgba(255,255,255,0.18);
+box-shadow:0 0 0 2px #6366f1;
+transform:scale(1.02);
+}
+
+/* BUTTON */
+button{
+width:100%;
+padding:12px;
+margin-top:12px;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:500;
+transition:0.3s;
+}
+
+button:hover{
+transform:translateY(-3px) scale(1.02);
+box-shadow:0 8px 25px rgba(99,102,241,0.6);
+}
+
+/* LINK */
+a{
+color:#a5b4fc;
+text-decoration:none;
+font-size:14px;
+}
+
+a:hover{
+text-decoration:underline;
+}
+
+/* ENTRY ANIMATION */
+@keyframes fadeUp{
+0%{opacity:0; transform:translateY(30px);}
+100%{opacity:1; transform:translateY(0);}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 🔥 FLOATING SYMBOLS -->
+<div class="symbol">⚙️</div>
+<div class="symbol">🤖</div>
+<div class="symbol">💻</div>
+<div class="symbol">📊</div>
+<div class="symbol">🧠</div>
+<div class="symbol">📡</div>
+<div class="symbol">⚡</div>
+<div class="symbol">🔗</div>
+<div class="symbol">💡</div>
+
+<!-- LOGIN BOX -->
+<div class="box">
+<h2>🔐 Login</h2>
+
+<form method="POST">
+<input name="username" placeholder="Username" required>
+<input type="password" name="password" placeholder="Password" required>
+<button>Login</button>
+</form>
+
+<p style="margin-top:15px;">
+<a href="/register">Create account</a>
+</p>
+</div>
+
+</body>
+</html>

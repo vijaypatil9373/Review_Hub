@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Review Hub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+html{scroll-behavior:smooth;}
+
+body{
+background:linear-gradient(135deg,#eef2ff,#f1f5f9);
+color:#1e293b;
+}
+
+/* NAVBAR */
+/* NAVBAR */
+nav{
+background:linear-gradient(135deg,#0b1220,#111827);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 50px;
+color:white;
+position:sticky;
+top:0;
+z-index:1000;
+box-shadow:0 6px 20px rgba(0,0,0,0.35);
+}
+
+/* LOGO */
+.logo{
+font-size:22px;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:8px;
+cursor:pointer;
+}
+
+.logo .emoji{
+font-size:20px;
+animation:floatLogo 2.5s ease-in-out infinite;
+}
+
+.logo .text{
+color:#e2e8f0;
+transition:0.3s;
+}
+
+/* hover glow */
+.logo:hover .text{
+color:#818cf8;
+text-shadow:0 0 10px rgba(129,140,248,0.6);
+}
+
+/* NAV LIST */
+nav ul{
+display:flex;
+align-items:center;
+gap:24px;
+list-style:none;
+}
+
+/* NAV ITEMS */
+nav li{
+display:flex;
+align-items:center;
+}
+
+/* LINKS */
+nav a{
+color:#cbd5f5;
+text-decoration:none;
+font-size:14.5px;
+font-weight:500;
+position:relative;
+transition:0.3s;
+}
+
+/*  hover effect */
+nav a:hover{
+color:#ffffff;
+transform:translateY(-1px);
+}
+
+/*  underline animation */
+nav a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-4px;
+width:0%;
+height:2px;
+background:#818cf8;
+transition:0.3s;
+}
+
+nav a:hover::after{
+width:100%;
+}
+
+/* USER */
+.user{
+display:flex;
+align-items:center;
+gap:6px;
+color:#c7d2fe;
+font-size:14px;
+}
+
+/* LOGOUT BUTTON */
+.logout{
+background:linear-gradient(135deg,#ef4444,#dc2626);
+padding:7px 16px;
+border-radius:8px;
+color:white;
+font-size:14px;
+font-weight:500;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:all 0.3s ease;
+box-shadow:0 4px 12px rgba(239,68,68,0.3);
+}
+
+/*  hover */
+.logout:hover{
+transform:translateY(-2px) scale(1.03);
+box-shadow:0 8px 18px rgba(239,68,68,0.45);
+}
+
+/* click */
+.logout:active{
+transform:scale(0.95);
+}
+
+/* LOGO FLOAT */
+@keyframes floatLogo{
+0%{transform:translateY(0);}
+50%{transform:translateY(-5px);}
+100%{transform:translateY(0);}
+}
+
+/* HERO */
+.hero{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:50px;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+color:white;
+border-radius:0 0 30px 30px;
+}
+
+.hero-title{
+font-size:44px;
+font-weight:700;
+color:#facc15; /* yellow highlight */
+text-shadow:0 3px 10px rgba(0,0,0,0.3);
+}
+
+.hero-desc{
+margin-top:12px;
+color:#e0e7ff;
+opacity:0.9;
+}
+
+.hero img{
+width:260px;
+animation:float 4s ease-in-out infinite;
+}
+
+/* SECTION */
+.section{
+padding:40px 50px;
+margin-top:-30px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:2fr 1fr 1fr;
+gap:30px;
+}
+
+/* CARD */
+.card{
+background:white;
+padding:26px;
+border-radius:16px;
+box-shadow:0 6px 20px rgba(0,0,0,0.06);
+transition:0.3s;
+}
+.card:hover{transform:translateY(-5px);}
+.card:hover{
+box-shadow:0 15px 40px rgba(0,0,0,0.12),
+            0 0 20px rgba(99,102,241,0.15);
+}
+
+/* TEXTAREA */
+textarea{
+width:100%;
+height:110px;
+padding:12px;
+border-radius:12px;
+border:1.5px solid #c7d2fe;
+outline:none;
+font-size:14px;
+transition:all 0.3s ease;
+background:#f8fafc;
+}
+
+/* ✨ focus effect */
+textarea:focus{
+border:1.5px solid #6366f1;
+background:white;
+box-shadow:0 0 0 3px rgba(99,102,241,0.15);
+transform:scale(1.01);
+}
+
+/* ✨ hover effect */
+textarea:hover{
+border-color:#818cf8;
+}
+textarea::placeholder{
+color:#94a3b8;
+font-size:13px;
+}
+
+/* BUTTON */
+.btn{
+margin-top:12px;
+padding:12px 22px;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
+color:white;
+font-size:15px;
+font-weight:500;
+cursor:pointer;
+position:relative;
+overflow:hidden;
+transition:all 0.3s ease;
+box-shadow:0 6px 15px rgba(79,70,229,0.3);
+}
+
+/* Hover effect */
+.btn:hover{
+transform:translateY(-2px) scale(1.03);
+box-shadow:0 10px 25px rgba(79,70,229,0.45);
+}
+
+/* Click effect */
+.btn:active{
+transform:scale(0.97);
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Shine animation */
+.btn::before{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent);
+transition:0.5s;
+}
+
+.btn:hover::before{
+left:100%;
+}
+
+/* RESULT */
+.result{
+opacity:0;
+transform:translateY(10px);
+transition:0.5s;
+font-size:20px;
+font-weight:600;
+}
+.result.show{
+opacity:1;
+transform:translateY(0);
+}
+.positive{color:#16a34a;}
+.negative{color:#dc2626;}
+.neutral{color:#64748b;}
+
+/* GUIDE TEXT STYLING */
+.pos, .neg, .neu{
+font-weight:600;
+padding:10px 14px;
+border-radius:10px;
+margin:10px 0;
+transition:0.3s;
+}
+
+/* POSITIVE */
+.pos{
+color:#16a34a;
+background:rgba(22,163,74,0.08);
+}
+.pos:hover{
+background:rgba(22,163,74,0.15);
+transform:translateX(5px);
+}
+
+/* NEGATIVE */
+.neg{
+color:#dc2626;
+background:rgba(220,38,38,0.08);
+}
+.neg:hover{
+background:rgba(220,38,38,0.15);
+transform:translateX(5px);
+}
+
+/* NEUTRAL */
+.neu{
+color:#ca8a04;
+background:rgba(202,138,4,0.08);
+}
+.neu:hover{
+background:rgba(202,138,4,0.15);
+transform:translateX(5px);
+}
+/* TAG */
+.tag{
+display:inline-block;
+background:#eef2ff;
+color:#4f46e5;
+padding:5px 10px;
+border-radius:8px;
+margin:4px;
+}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;}
+th{background:#eef2ff;padding:12px;}
+td{padding:12px;border-bottom:1px solid #e2e8f0;text-align:center;}
+
+/* BOTTOM */
+.bottom{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:30px;
+margin-top:30px;
+}
+
+/* BEST PRODUCT */
+.best-product{
+text-align:center;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+/* HISTORY */
+.history-box{
+max-height:180px;
+overflow-y:auto;
+}
+.history-box p{
+background:#f8fafc;
+padding:6px;
+border-radius:8px;
+margin:6px 0;
+}
+
+/* GRAPH */
+#sentimentChart{
+max-width:260px;
+margin:auto;
+}
+
+.card h3{
+font-size:20px;
+font-weight:600;
+color:#0f172a;
+margin-bottom:10px;
+letter-spacing:0.4px;
+transition:all 0.25s ease;
+}
+
+/* smooth color shift */
+.card:hover h3{
+color:#6366f1;
+transform:translateX(2px);
+}
+
+
+/* ANIMATIONS */
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-12px)}
+100%{transform:translateY(0)}
+}
+@keyframes shine{
+0%{background-position:0% center;}
+100%{background-position:200% center;}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<h2 class="logo">
+<span class="emoji">🧠</span>
+<span class="text"> The Review Hub</span>
+</h2>
+<ul>
+<li><a onclick="scrollToSection('top')">Home</a></li>
+<li><a onclick="scrollToSection('about')">About</a></li>
+<li><a onclick="scrollToSection('history')">History</a></li>
+<li class="user">👤 {{ session.user }}</li>
+<li><a href="/logout" class="logout">Logout</a></li>
+</ul>
+</nav>
+
+<section class="hero" id="top">
+<div>
+<h1 class="hero-title">Review Analyzer</h1>
+<p class="hero-desc">Analyze product reviews using <b>SVM Algorithm</b> and get instant sentiment results.<br> Compare products and make smarter buying decisions. </p>
+</div>
+<img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png">
+</section>
+
+<section class="section">
+
+<div class="grid">
+
+<!-- INPUT -->
+<div class="card">
+<h3><b>Analyze Review</b></h3>
+<br>
+<form method="POST">
+<textarea id="reviewBox" name="review"></textarea>
+<button class="btn">Analyze</button>
+</form>
+</div>
+
+<!-- RESULT -->
+<div class="card">
+<h3>Result</h3>
+<br>
+{% if result %}
+<div id="resultBox" class="result 
+{% if 'Positive' in result %}positive
+{% elif 'Negative' in result %}negative
+{% else %}neutral
+{% endif %}">
+{{ result }}
+</div>
+
+<p>Confidence: <span id="confidenceValue">0</span>%</p>
+
+<div>
+{% for w in top_words %}
+<span class="tag">{{ w }}</span>
+{% endfor %}
+</div>
+
+{% else %}
+<div class="result show neutral" style="font-size:16px;">
+No review analyzed yet 📝
+</div>
+<p style="font-size:13px;color:#64748b;">
+Enter a review to see sentiment results here.
+</p>
+{% endif %}
+</div>
+
+<!-- GUIDE -->
+<div class="card">
+<h3>Guide</h3>
+<p class="pos">😊 Positive → Satisfied Users</p>
+<p class="neg">😞 Negative → Complaints</p>
+<p class="neu">😐 Neutral → Mixed Opinions</p>
+</div>
+
+</div>
+
+<div class="bottom">
+
+<!-- PRODUCT -->
+<div class="card">
+<h3>📊 Product Insights</h3>
+<br>
+<p style="font-size:13px;color:#64748b;margin-bottom:10px;">
+ℹ️ Insights are based on sample dataset for demonstration purposes.
+</p>
+<table>
+<tr>
+<th>Product</th>
+<th>Rating</th>
+<th>Positive</th>
+<th>Negative</th>
+<th>Neutral</th>
+</tr>
+
+{% for p in products %}
+<tr>
+<td>{{ p.name }}</td>
+<td>{{ p.rating }} ⭐</td>
+<td>{{ p.positive }}%</td>
+<td>{{ p.negative }}%</td>
+<td>{{ p.neutral }}%</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<div>
+
+<div class="card best-product">
+<h3>🏆 Best Product</h3>
+<br>
+<h2>{{ best_product }}</h2>
+<button class="btn"
+onclick="window.open('{{ product_links[best_product] }}','_blank')">
+View Product
+</button>
+</div>
+
+<!-- HISTORY -->
+<div class="card" id="history" style="margin-top:20px;">
+<h3>Recent Reviews</h3>
+
+<div class="history-box">
+{% if history|length > 0 %}
+    {% for item in history %}
+    <p>• {{ item.text }} → {{ item.sentiment }}</p>
+    {% endfor %}
+{% else %}
+    <p style="text-align:center;color:#64748b;">
+        No reviews yet 📝 <br>
+        Start analyzing to see history here.
+    </p>
+{% endif %}
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- GRAPH -->
+<div class="card" style="margin-top:30px;text-align:center;">
+<h3>📊 Sentiment Overview</h3>
+<canvas id="sentimentChart"></canvas>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="card" style="margin-top:30px;text-align:center;">
+<h3 >🚀 About The Review Hub</h3>
+<br>
+<p>
+Smart AI system that analyzes reviews using <b>SVM Algorithm</b> and classifies into 
+<span style="color:#16a34a;">Positive</span>, 
+<span style="color:#dc2626;">Negative</span>, 
+<span style="color:#ca8a04;">Neutral</span>.
+</p>
+</div>
+
+</section>
+
+<script>
+
+// NAV
+function scrollToSection(id){
+document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+// typing
+let textarea=document.getElementById("reviewBox");
+let text="Write your honest review here...";
+let i=0;
+function typing(){
+if(i<text.length){
+textarea.setAttribute("placeholder",text.substring(0,i+1));
+i++;
+setTimeout(typing,30);
+}}
+typing();
+
+// result animation
+let resultBox=document.getElementById("resultBox");
+if(resultBox){
+setTimeout(()=>{resultBox.classList.add("show");},200);
+}
+
+// confidence
+let confidenceEl=document.getElementById("confidenceValue");
+if(confidenceEl){
+let target={{ confidence|default(0) }};
+let count=0;
+let interval=setInterval(()=>{
+count++;
+confidenceEl.innerText=count;
+if(count>=target){clearInterval(interval);}
+},15);
+}
+
+// graph
+let pos={{ pos_count|default(0) }};
+let neg={{ neg_count|default(0) }};
+let neu={{ neu_count|default(0) }};
+
+if(pos===0 && neg===0 && neu===0){
+pos=1;neg=1;neu=1;
+}
+
+new Chart(document.getElementById('sentimentChart'),{
+type:'doughnut',
+data:{
+labels:['Positive','Negative','Neutral'],
+datasets:[{
+data:[pos,neg,neu]
+}]
+}
+});
+</script>
+
+</body>
+</html>

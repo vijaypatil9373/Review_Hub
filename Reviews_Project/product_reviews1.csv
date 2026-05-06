@@ -1,0 +1,78 @@
+PRODUCT_ID,PRODUCT_NAME,CUSTOMER_NAME,CUSTOMER_REVIEW,POSITIVE,NEGATIVE,NEUTRAL,SENTIMENT
+PID1,IPHONE 11,VIKAS YADAV,It?s really awesome.,1,,,1
+PID1,IPHONE 11,PUSHPAK KHADKE,The iPhone 11's display resolution is lower than some competitors in the same price range.,,-1,,-1
+PID1,IPHONE 11,CHETAN DHANDE,"The iPhone 11 offers a good balance of features, but the LCD display may not satisfy all users.",,,0,0
+PID1,IPHONE 11,YASH PATIL,Camera is awesome. Best battery backup. A performer,1,,,1
+PID1,IPHONE 11,MOHIT MAHAJAN,Value for money,1,,,1
+,,,,,,,
+PID2,ALEXA,SAKSHI PATIL,Alexa is amazing! It makes my daily tasks so much easier.,1,,,1
+PID2,ALEXA,POOJA KHADKE,I love using Alexa for setting reminders and alarms. Super convenient!,1,,,1
+PID2,ALEXA,LAXMI PATIL,"The sound quality is excellent, and it responds quickly to commands.",1,,,1
+PID2,ALEXA,JAGRUTI PATIL,Alexa integrates perfectly with my smart home devices. Highly recommend!,1,,,1
+PID2,ALEXA,YASH KHADKE,"Alexa's voice recognition is spot on, even in a noisy environment",1,,,1
+PID2,ALEXA,MANAS CHAUDHARI,I enjoy listening to music through Alexa. The streaming options are great!,1,,,1
+PID2,ALEXA,MANSI SONAR,The hands-free feature has been a game-changer for cooking and multitasking.,1,,,1
+PID2,ALEXA,ABHISHEK PORAL,"""It sometimes activates randomly without being called.""",,-1,,-1
+PID2,ALEXA,PAYAL MAHAJAN,"""It struggles to provide accurate answers for complex questions.""",,-1,,-1
+PID2,ALEXA,JAY PATIL,"""Skills often require additional subscriptions, which is disappointing.""",,-1,,-1
+,,,,,,,
+PID3,LENOVO LEGION 5,SOPAN KHADKE,"""The Lenovo Legion 5 offers incredible performance for gaming and productivity with its powerful processor and GPU.""",1,,,1
+PID3,LENOVO LEGION 5,MAYUR MAHAJAN,"""The cooling system is outstanding, keeping the laptop cool even during extended gaming sessions.""",1,,,1
+PID3,LENOVO LEGION 5,PIYUSH PATIL,"""The display is vibrant and has a high refresh rate, making gaming and video playback smooth and enjoyable.""",1,,,1
+PID3,LENOVO LEGION 5,YASHIKA PATIL,"""The build quality is excellent, with a sturdy design that feels premium and durable.""",1,,,1
+PID3,LENOVO LEGION 5,MANOJ KHADKE,"""The keyboard is comfortable to type on, and the RGB lighting adds a stylish touch.""",1,,,1
+PID3,LENOVO LEGION 5,KIRAN PATIL,"""Battery life is surprisingly good for a gaming laptop, lasting several hours with normal use.""",1,,,1
+PID3,LENOVO LEGION 5,GANESH DHANDE,"""It has plenty of ports for connectivity, making it versatile for gaming setups and workstations.""",1,,,1
+
+PID4,ONEPLUS NORD,RAHUL,"Amazing performance and smooth UI",1,,,1
+PID4,ONEPLUS NORD,AMIT,"Battery life is very good",1,,,1
+PID4,ONEPLUS NORD,SNEHA,"Camera quality is excellent",1,,,1
+PID4,ONEPLUS NORD,ROHAN,"Fast charging is super useful",1,,,1
+PID4,ONEPLUS NORD,POOJA,"Display is bright and clear",1,,,1
+
+PID4,ONEPLUS NORD,KARAN,"Worst phone I have used",,-1,,-1
+PID4,ONEPLUS NORD,NEHA,"Battery drains very fast",,-1,,-1
+PID4,ONEPLUS NORD,RAJ,"Poor camera performance",,-1,,-1
+PID4,ONEPLUS NORD,MEENA,"Heating issue while gaming",,-1,,-1
+PID4,ONEPLUS NORD,SACHIN,"Not worth the price",,-1,,-1
+
+PID5,REALME 11,ARJUN,"Good phone for daily use",1,,,1
+PID5,REALME 11,RAVI,"Nice design and performance",1,,,1
+PID5,REALME 11,PRIYA,"Value for money product",1,,,1
+PID5,REALME 11,KIRAN,"Decent battery backup",,,0,0
+PID5,REALME 11,SONAL,"Average camera quality",,,0,0
+
+PID5,REALME 11,VIJAY,"Very bad experience",,-1,,-1
+PID5,REALME 11,NISHA,"Screen quality is poor",,-1,,-1
+PID5,REALME 11,DEEPAK,"Phone hangs frequently",,-1,,-1
+PID5,REALME 11,ANITA,"Worst performance ever",,-1,,-1
+PID5,REALME 11,MANOJ,"Totally useless phone",,-1,,-1
+
+PID6,BOAT HEADPHONES,RAHUL,"Sound quality is amazing",1,,,1
+PID6,BOAT HEADPHONES,AMIT,"Bass is very strong",1,,,1
+PID6,BOAT HEADPHONES,SNEHA,"Comfortable to wear",1,,,1
+PID6,BOAT HEADPHONES,ROHAN,"Good battery life",1,,,1
+PID6,BOAT HEADPHONES,POOJA,"Stylish design",1,,,1
+
+PID6,BOAT HEADPHONES,KARAN,"Sound is very low",,-1,,-1
+PID6,BOAT HEADPHONES,NEHA,"Stopped working in 1 week",,-1,,-1
+PID6,BOAT HEADPHONES,RAJ,"Poor build quality",,-1,,-1
+PID6,BOAT HEADPHONES,MEENA,"Not comfortable",,-1,,-1
+PID6,BOAT HEADPHONES,SACHIN,"Waste of money",,-1,,-1
+
+PID7,SAMSUNG TV,ARJUN,"Picture quality is excellent",1,,,1
+PID7,SAMSUNG TV,RAVI,"Smart features are great",1,,,1
+PID7,SAMSUNG TV,PRIYA,"Sound quality is good",1,,,1
+PID7,SAMSUNG TV,KIRAN,"Easy to install and use",1,,,1
+PID7,SAMSUNG TV,SONAL,"Very good display",1,,,1
+
+PID7,SAMSUNG TV,VIJAY,"Remote stopped working",,-1,,-1
+PID7,SAMSUNG TV,NISHA,"Screen flickers sometimes",,-1,,-1
+PID7,SAMSUNG TV,DEEPAK,"Very slow interface",,-1,,-1
+PID7,SAMSUNG TV,ANITA,"Not satisfied with quality",,-1,,-1
+PID7,SAMSUNG TV,MANOJ,"Too expensive for features",,-1,,-1
+
+PIDX,TEST,USER,"its okay",,,0,0
+PIDX,TEST,USER,"average product",,,0,0
+PIDX,TEST,USER,"not bad",,,0,0
+PIDX,TEST,USER,"fine quality",,,0,0
