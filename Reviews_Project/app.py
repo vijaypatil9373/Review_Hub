@@ -4,13 +4,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import pandas as pd
 import numpy as np
 import re
+import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 
 app = Flask(__name__)
 app.secret_key = "secret123"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+# ✅ BASE PATH FIX (important for Render)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# ✅ DATABASE PATH FIX
+db_path = os.path.join(BASE_DIR, "users.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 # ================= MODELS =================
@@ -26,7 +34,8 @@ class Review(db.Model):
     sentiment = db.Column(db.String(20))
 
 # ================= LOAD DATA =================
-data = pd.read_csv("product_reviews1.csv")
+csv_path = os.path.join(BASE_DIR, "product_reviews1.csv")
+data = pd.read_csv(csv_path)
 
 data = data.dropna(subset=["CUSTOMER_REVIEW", "SENTIMENT"])
 data["CUSTOMER_REVIEW"] = data["CUSTOMER_REVIEW"].str.lower()
@@ -90,20 +99,19 @@ def home():
 
         if review:
 
-            # 🚫 Prevent reload duplicate (same last review)
+            # 🚫 Prevent reload duplicate
             if session.get("last_review") == review:
                 return redirect(url_for("home"))
 
             result, confidence = smart_predict(review)
 
-            # keywords
             vec = vectorizer.transform([review])
             feature_names = vectorizer.get_feature_names_out()
             scores = vec.toarray()[0]
             top_idx = np.argsort(scores)[-5:]
             top_words = [feature_names[i] for i in top_idx if scores[i] > 0]
 
-            # ✅ ALWAYS SAVE (duplicates allowed)
+            # ✅ Save (duplicates allowed except reload)
             db.session.add(Review(
                 username=session["user"],
                 text=review,
@@ -111,9 +119,7 @@ def home():
             ))
             db.session.commit()
 
-            # ✅ store last review to prevent reload duplicate
             session["last_review"] = review
-
             session["result"] = result
             session["confidence"] = confidence
             session["top_words"] = top_words
@@ -162,7 +168,7 @@ def home():
         result=result,
         confidence=confidence,
         top_words=top_words,
-        history=history[:5],   # latest 5 only
+        history=history[:5],
         products=product_stats,
         best_product=best_product,
         product_links=product_links,
@@ -208,4 +214,6 @@ def logout():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
