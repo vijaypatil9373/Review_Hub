@@ -14,7 +14,7 @@ app.secret_key = "secret123"
 # ================= BASE DIRECTORY =================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# ================= DATABASE CONFIG =================
+# ================= DATABASE =================
 db_path = os.path.join(BASE_DIR, "users.db")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_path
@@ -25,22 +25,45 @@ db = SQLAlchemy(app)
 # ================= MODELS =================
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(200))
+
+    username = db.Column(
+        db.String(100),
+        unique=True,
+        nullable=False
+    )
+
+    password = db.Column(
+        db.String(200),
+        nullable=False
+    )
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100))
-    text = db.Column(db.String(1000))
-    sentiment = db.Column(db.String(20))
+
+    username = db.Column(
+        db.String(100),
+        nullable=False
+    )
+
+    text = db.Column(
+        db.String(1000),
+        nullable=False
+    )
+
+    sentiment = db.Column(
+        db.String(20),
+        nullable=False
+    )
 
 # ================= LOAD CSV =================
 csv_path = os.path.join(BASE_DIR, "product_reviews1.csv")
 
 data = pd.read_csv(csv_path)
 
-# clean dataset
-data = data.dropna(subset=["CUSTOMER_REVIEW", "SENTIMENT"])
+# clean data
+data = data.dropna(
+    subset=["CUSTOMER_REVIEW", "SENTIMENT"]
+)
 
 data["CUSTOMER_REVIEW"] = (
     data["CUSTOMER_REVIEW"]
@@ -48,10 +71,14 @@ data["CUSTOMER_REVIEW"] = (
     .str.lower()
 )
 
-data["SENTIMENT"] = data["SENTIMENT"].astype(int)
+data["SENTIMENT"] = (
+    data["SENTIMENT"]
+    .astype(int)
+)
 
 # ================= TRAIN MODEL =================
 X = data["CUSTOMER_REVIEW"]
+
 y = data["SENTIMENT"]
 
 vectorizer = TfidfVectorizer(
@@ -70,42 +97,34 @@ def smart_predict(text):
 
     text = text.lower().strip()
 
-    # positive keywords
     positive_words = [
-        "awesome", "excellent", "best", "amazing",
-        "good", "great", "love", "perfect",
-        "fantastic", "nice", "super", "smooth",
-        "wonderful", "brilliant", "happy"
+        "awesome", "excellent", "best",
+        "amazing", "good", "great",
+        "love", "perfect", "fantastic",
+        "nice", "super", "smooth",
+        "wonderful", "brilliant"
     ]
 
-    # negative keywords
     negative_words = [
-        "worst", "bad", "poor", "terrible",
-        "waste", "useless", "slow", "lag",
-        "horrible", "hate", "problem",
-        "issue", "heating", "disappointed"
+        "worst", "bad", "poor",
+        "terrible", "waste", "useless",
+        "slow", "lag", "hate",
+        "problem", "issue", "heating"
     ]
 
-    # neutral keywords
     neutral_words = [
         "okay", "average", "fine",
-        "decent", "not bad", "normal",
-        "medium", "satisfactory"
+        "decent", "normal", "not bad",
+        "medium"
     ]
 
-    words = re.findall(r"\b\w+\b", text)
-
     # ================= RULE BASED =================
-
-    # negative
     if any(word in text for word in negative_words):
         return "Negative 😞", 96
 
-    # positive
     if any(word in text for word in positive_words):
         return "Positive 😊", 96
 
-    # neutral
     if any(word in text for word in neutral_words):
         return "Neutral 😐", 90
 
@@ -118,7 +137,6 @@ def smart_predict(text):
 
     confidence = round(prob * 100, 2)
 
-    # low confidence => neutral
     if confidence < 60:
         return "Neutral 😐", confidence
 
@@ -135,29 +153,31 @@ def smart_predict(text):
 @app.route("/", methods=["GET", "POST"])
 def home():
 
-    # login protection
+    # login required
     if "user" not in session:
         return redirect("/login")
 
     result = session.pop("result", None)
+
     confidence = session.pop("confidence", 0)
+
     top_words = session.pop("top_words", [])
 
-    # ================= REVIEW ANALYSIS =================
+    # ================= REVIEW SUBMIT =================
     if request.method == "POST":
 
         review = request.form["review"].strip()
 
         if review:
 
-            # prevent duplicate on reload
+            # prevent duplicate after refresh
             if session.get("last_review") == review:
                 return redirect(url_for("home"))
 
             # predict sentiment
             result, confidence = smart_predict(review)
 
-            # ================= KEYWORDS =================
+            # ================= TOP KEYWORDS =================
             vec = vectorizer.transform([review])
 
             feature_names = vectorizer.get_feature_names_out()
@@ -173,24 +193,36 @@ def home():
             ]
 
             # ================= SAVE REVIEW =================
-            new_review = Review(
-                username=session["user"],
-                text=review,
-                sentiment=result
-            )
+            try:
 
-            db.session.add(new_review)
-            db.session.commit()
+                new_review = Review(
+                    username=session["user"],
+                    text=review,
+                    sentiment=result
+                )
 
-            # save session data
+                db.session.add(new_review)
+
+                db.session.commit()
+
+            except Exception as e:
+
+                db.session.rollback()
+
+                print("DATABASE ERROR:", e)
+
+            # session save
             session["last_review"] = review
+
             session["result"] = result
+
             session["confidence"] = confidence
+
             session["top_words"] = top_words
 
             return redirect(url_for("home"))
 
-    # ================= REVIEW HISTORY =================
+    # ================= HISTORY =================
     history = (
         Review.query
         .filter_by(username=session["user"])
@@ -219,17 +251,28 @@ def home():
 
     for product in data["PRODUCT_NAME"].dropna().unique():
 
-        subset = data[data["PRODUCT_NAME"] == product]
+        subset = data[
+            data["PRODUCT_NAME"] == product
+        ]
 
         total = len(subset)
 
-        pos = len(subset[subset["SENTIMENT"] == 1])
+        pos = len(
+            subset[subset["SENTIMENT"] == 1]
+        )
 
-        neg = len(subset[subset["SENTIMENT"] == -1])
+        neg = len(
+            subset[subset["SENTIMENT"] == -1]
+        )
 
-        neu = len(subset[subset["SENTIMENT"] == 0])
+        neu = len(
+            subset[subset["SENTIMENT"] == 0]
+        )
 
-        rating = round(3 + ((pos - neg) / total) * 2, 1)
+        rating = round(
+            3 + ((pos - neg) / total) * 2,
+            1
+        )
 
         product_stats.append({
             "name": product,
@@ -298,6 +341,7 @@ def register():
         )
 
         db.session.add(new_user)
+
         db.session.commit()
 
         return redirect("/login")
